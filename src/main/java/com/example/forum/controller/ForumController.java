@@ -4,9 +4,7 @@ import com.example.forum.controller.form.ReportForm;
 import com.example.forum.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -54,6 +52,15 @@ public class ForumController {
         return new ModelAndView("redirect:/");
     }
 
-    @PostMapping("/deleteMessage")
-    public 
+    /*
+     * idに紐づいた投稿を削除
+     */
+    @DeleteMapping("/delete/{id}")
+    public ModelAndView deleteContent(@PathVariable Integer id) {
+        // 投稿をテーブルに格納
+        reportService.deleteReport(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
+
 }

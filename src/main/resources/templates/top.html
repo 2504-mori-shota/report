@@ -20,10 +20,17 @@
         <div class="text">
             投稿 : <span th:text="${content.content}"/>
         </div>
-        <form action="deleteMessage" method="post">
-            <input name="id" value="${message.id}" type="hidden"/>
-            <input type="submit" value="削除">
-        </form>
+        <div class="delete-button">
+            <form th:action="@{/delete/{id}(id=${content.id})}" th:method="delete">
+                <input type="submit" value="削除">
+            </form>
+        </div>
+   <!--     <div class="update-button">
+            <form th:action="@{/update/{id}(id=${content.id})}" th:method="update">
+                <input type="submit" value="編集">
+            </form>
+        </div> -->
+
     </div>
 </div>
 </body>

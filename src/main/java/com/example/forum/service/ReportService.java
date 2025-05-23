@@ -56,5 +56,11 @@ public class ReportService {
         return report;
     }
 
+    /*
+    * idに紐づいた投稿を削除
+     */
+    public void deleteReport(int id) {
+        reportRepository.deleteById(id);
+    }
 }
 
