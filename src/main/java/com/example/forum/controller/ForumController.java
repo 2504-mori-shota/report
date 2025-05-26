@@ -63,4 +63,36 @@ public class ForumController {
         return new ModelAndView("redirect:/");
     }
 
+    /*
+     * 編集画面表示処理
+     */
+    @GetMapping("/edit/{id}")
+    public ModelAndView editContent(@PathVariable Integer id) {
+        /* ModelAndViewとは？
+         * A:HTMLに表示させる情報を入れておく箱
+         */
+        ModelAndView mav = new ModelAndView();
+        // 編集する投稿を取得
+        ReportForm report = reportService.editReport(id);
+        // 編集する投稿をセット
+        mav.addObject("formModel", report);
+        // 画面遷移先を指定
+        mav.setViewName("/edit");
+        return mav;
+    }
+
+
+    // 編集の内容
+    @PutMapping("/update/{id}")
+    public ModelAndView updateContent(@PathVariable Integer id, @ModelAttribute("formModel") ReportForm report) {
+        // UrlParameterのidを更新するentityにセット
+        report.setId(id);
+        // 編集した投稿を更新
+        reportService.saveReport(report);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+
+    }
+
+
 }

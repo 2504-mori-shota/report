@@ -23,7 +23,7 @@ public class ReportService {
         return reports;
     }
     /*
-     * DBから取得したデータをFormに設定
+     * DBから取得したデータをentityからFormに設定
      */
     private List<ReportForm> setReportForm(List<Report> results) {
         List<ReportForm> reports = new ArrayList<>();
@@ -47,7 +47,7 @@ public class ReportService {
     }
 
     /*
-     * リクエストから取得した情報をEntityに設定
+     * リクエストから取得した情報ReportFormからEntityに設定
      */
     private Report setReportEntity(ReportForm reqReport) {
         Report report = new Report();
@@ -57,10 +57,25 @@ public class ReportService {
     }
 
     /*
-    * idに紐づいた投稿を削除
+     * idに紐づいた投稿を削除
      */
     public void deleteReport(int id) {
         reportRepository.deleteById(id);
     }
+
+    /*
+     * レコード1件取得
+     */
+    public ReportForm editReport(Integer id) {
+        List<Report> results = new ArrayList<>();
+        results.add((Report) reportRepository.findById(id).orElse(null));
+        List<ReportForm> reports = setReportForm(results);
+        /*
+         * 上記の処理は仮にデータを2つ以上取得してきた際にバグがおこらないように配列にデータを入れ、
+         * その中から最初のデータを取得するようにしている。
+         */
+        return reports.get(0);
+    }
+
 }
 
