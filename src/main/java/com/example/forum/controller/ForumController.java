@@ -1,7 +1,9 @@
 package com.example.forum.controller;
 
+import com.example.forum.controller.form.CommentForm;
 import com.example.forum.controller.form.ReportForm;
 import com.example.forum.service.ReportService;
+import com.example.forum.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ import java.util.List;
 public class ForumController {
     @Autowired
     ReportService reportService;
+    @Autowired
+    CommentService commentService;
 
     /*
      * 投稿内容表示処理
@@ -22,10 +26,19 @@ public class ForumController {
         ModelAndView mav = new ModelAndView();
         // 投稿を全件取得
         List<ReportForm> contentData = reportService.findAllReport();
+        // コメントを全件取得
+        List<CommentForm> commentData = commentService.findAllComment();
+        // form用の空のentityを準備
+        CommentForm commentForm = new CommentForm();
         // 画面遷移先を指定
         mav.setViewName("/top");
         // 投稿データオブジェクトを保管
         mav.addObject("contents", contentData);
+        // 準備した空のFormを保管
+        mav.addObject("formModel", commentForm);
+        //
+        mav.addObject("comments", commentData);
+
         return mav;
     }
 
@@ -81,7 +94,6 @@ public class ForumController {
         return mav;
     }
 
-
     // 編集の内容
     @PutMapping("/update/{id}")
     public ModelAndView updateContent(@PathVariable Integer id, @ModelAttribute("formModel") ReportForm report) {
@@ -94,5 +106,13 @@ public class ForumController {
 
     }
 
-
+    //idに紐づいて返信
+    @PostMapping("/comment/{id}")
+    public ModelAndView Comment(@PathVariable Integer id, @ModelAttribute("formModel") CommentForm comment) {
+         String str = comment.getComment();
+         comment.setReportId(id);
+        // 返信の内容をDBに保存
+        commentService.saveComment(comment);
+        return new ModelAndView("redirect:/");
+    }
 }

@@ -26,13 +26,28 @@
                 </form>
             </div>
            <div class="edit-button">
-       <!-- <form th:action="@{/update/{id}(id=${content.id})}" th:method="update">
-                    <input type="submit" value="編集">
-                </form>
-            </div> -->
                 <a th:href="@{/edit/{id}(id=${content.id})}">
                     <input type="button" value="編集">
                 </a>
+           </div>
+            <div class="comment-button">
+                <!--<form>タグを作成して記入された内容をControllerに送る-->
+               <form th:method="post" th:action="@{/comment/{id}(id=${content.id})}" th:object="${formModel}">
+                   <div class="form-area">
+                      <label>返信内容</label>
+                       <!--[field]タグの意味は？-->
+                       <textarea class="tweet-box" th:field="*{comment}" size="20" maxlength="200" /></textarea><br/>
+                       <input type="submit" value="返信"/>
+                   </div>
+               </form>
+            </div>
+            <div class="comment-icon" th:each="comment : ${comments}" th:if="${content.id} == ${comment.reportId}">
+                <div class="text">
+                    返信 : <span th:text="${comment.comment}"/>
+                   <!-- <a th:href="@{/commentedit/{id}(id=${comment.id})}">
+                        <input type="button" value="編集">
+                    </a>-->
+                </div>
             </div>
         </div>
     </div>

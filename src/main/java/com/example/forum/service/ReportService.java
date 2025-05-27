@@ -76,6 +76,5 @@ public class ReportService {
          */
         return reports.get(0);
     }
-
 }
 
