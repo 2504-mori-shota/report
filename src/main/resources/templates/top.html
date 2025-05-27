@@ -48,6 +48,11 @@
                        <input type="submit" value="編集">
                    </form>
                 </div>
+                <div class="delete-button">
+                    <form th:action="@{/commentDelete/{id}(id=${comment.id})}" th:method="delete">
+                        <input type="submit" value="削除">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
