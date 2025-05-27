@@ -1,8 +1,10 @@
 package com.example.forum.service;
 
 import com.example.forum.controller.form.CommentForm;
+import com.example.forum.controller.form.ReportForm;
 import com.example.forum.repository.CommentRepository;
 import com.example.forum.repository.entity.Comment;
+import com.example.forum.repository.entity.Report;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,17 @@ public class CommentService {
     public void saveComment(CommentForm reqComment) {
         Comment saveComment = setCommentEntity(reqComment);
         commentRepository.save(saveComment);
+    }
+
+    public CommentForm editComment(Integer id) {
+        List<Comment> results = new ArrayList<>();
+        results.add((Comment) commentRepository.findById(id).orElse(null));
+        List<CommentForm> comments = setCommentForm(results);
+        /*
+         * 上記の処理は仮にデータを2つ以上取得してきた際にバグがおこらないように配列にデータを入れ、
+         * その中から最初のデータを取得するようにしている。
+         */
+        return comments.get(0);
     }
 }
 

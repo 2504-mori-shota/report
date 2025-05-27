@@ -44,9 +44,9 @@
             <div class="comment-icon" th:each="comment : ${comments}" th:if="${content.id} == ${comment.reportId}">
                 <div class="text">
                     返信 : <span th:text="${comment.comment}"/>
-                   <!-- <a th:href="@{/commentedit/{id}(id=${comment.id})}">
-                        <input type="button" value="編集">
-                    </a>-->
+                   <form th:action="@{/commentEdit/{id}(id=${comment.id})}">
+                       <input type="submit" value="編集">
+                   </form>
                 </div>
             </div>
         </div>
