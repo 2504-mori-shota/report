@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -22,10 +24,10 @@ public class ForumController {
      * 投稿内容表示処理
      */
     @GetMapping
-    public ModelAndView top() {
+    public ModelAndView top(@RequestParam(name = "start_date", required = false)String startDate , @RequestParam(name="end_date", required = false )String endDate) throws ParseException {
         ModelAndView mav = new ModelAndView();
         // 投稿を全件取得
-        List<ReportForm> contentData = reportService.findAllReport();
+        List<ReportForm> contentData = reportService.findByCreatedDateBetween(startDate , endDate);
         // コメントを全件取得
         List<CommentForm> commentData = commentService.findAllComment();
         // form用の空のentityを準備

@@ -10,6 +10,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "report")
 @Getter
@@ -23,5 +25,10 @@ public class Report {
     @Column
     private String content;
 
+    @Column(insertable = false)
+    private Date createdDate;
+
+    @Column(insertable = false)
+    private Date updatedDate;
 }
 

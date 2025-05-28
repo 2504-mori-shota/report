@@ -11,15 +11,22 @@
     </div>
     <div class="main-contents">
         <a href="/new">
-            <button class="new-button" type="button">新規投稿</button>
+            <button class="new-button" type="button">新規投稿 </button>
         </a>
-        <div class="message-icon" th:each="content : ${contents}">
+        <<div class="dates">
+            <form th:action="@{/}" th:method="get">
+                日付検索<input type="date" name="start_date" th:max="2100/12/31" th:min="2020/01/01" th:value="${start }"/>～<input type="date" name="end_date" th:max="2100/12/31" th:min="2020/01/01" th:value="${end }">
+                <input type="submit" value="検索">
+            </form>
+        </div>
+        <div class="message-icon" th:each="content : ${contents}" >
             <div>
                 ID : <span th:text="${content.id}"/>
             </div>
             <div class="text">
                 投稿 : <span th:text="${content.content}"/>
             </div>
+            <div><span th:text="${#dates.format(content.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/></div>
             <div class="delete-button">
                 <form th:action="@{/delete/{id}(id=${content.id})}" th:method="delete">
                     <input type="submit" value="削除">

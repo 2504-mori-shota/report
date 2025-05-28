@@ -3,10 +3,15 @@ package com.example.forum.service;
 import com.example.forum.controller.form.ReportForm;
 import com.example.forum.repository.ReportRepository;
 import com.example.forum.repository.entity.Report;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,8 +22,22 @@ public class ReportService {
     /*
      * レコード全件取得処理
      */
-    public List<ReportForm> findAllReport() {
-        List<Report> results = reportRepository.findAllByOrderByIdDesc();
+    public List<ReportForm> findByCreatedDateBetween(String startDate, String endDate) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String StrStartDate ="2020-01-01 00:00:00.000";
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        String StrEndDate = df.format(currentTime);
+
+        if (!StringUtils.isBlank(startDate)) {
+           StrStartDate = startDate + " 00:00:00.000";
+        }
+        if (!StringUtils.isBlank(endDate)) {
+            StrEndDate = endDate + " 23:59:59.999";
+        }//df.format(startDate)
+
+        Date StrDate = df.parse(StrStartDate);
+        Date EndDate = df.parse(StrEndDate);
+        List<Report> results = reportRepository.findByCreatedDateBetween(StrDate, EndDate);
         List<ReportForm> reports = setReportForm(results);
         return reports;
     }
@@ -33,6 +52,8 @@ public class ReportService {
             Report result = results.get(i);
             report.setId(result.getId());
             report.setContent(result.getContent());
+            report.setCreatedDate(result.getCreatedDate());
+            report.setUpdatedDate(result.getUpdatedDate());
             reports.add(report);
         }
         return reports;
@@ -43,7 +64,7 @@ public class ReportService {
      */
     public void saveReport(ReportForm reqReport) {
         Report saveReport = setReportEntity(reqReport);
-        reportRepository.save(saveReport);
+        reportRepository.save(saveReport);/**/
     }
 
     /*
@@ -53,6 +74,8 @@ public class ReportService {
         Report report = new Report();
         report.setId(reqReport.getId());
         report.setContent(reqReport.getContent());
+        report.setCreatedDate(reqReport.getCreatedDate());
+        report.setUpdatedDate(reqReport.getUpdatedDate());
         return report;
     }
 
