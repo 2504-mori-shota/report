@@ -37,7 +37,7 @@ public class ReportService {
 
         Date StrDate = df.parse(StrStartDate);
         Date EndDate = df.parse(StrEndDate);
-        List<Report> results = reportRepository.findByCreatedDateBetween(StrDate, EndDate);
+        List<Report> results = reportRepository.findByUpdatedDateBetweenOrderByUpdatedDateDesc(StrDate, EndDate);
         List<ReportForm> reports = setReportForm(results);
         return reports;
     }
@@ -71,11 +71,12 @@ public class ReportService {
      * リクエストから取得した情報ReportFormからEntityに設定
      */
     private Report setReportEntity(ReportForm reqReport) {
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Report report = new Report();
         report.setId(reqReport.getId());
         report.setContent(reqReport.getContent());
         report.setCreatedDate(reqReport.getCreatedDate());
-        report.setUpdatedDate(reqReport.getUpdatedDate());
+        report.setUpdatedDate(currentTime);
         return report;
     }
 

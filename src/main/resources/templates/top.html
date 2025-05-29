@@ -39,11 +39,12 @@
            </div>
             <div class="comment-button">
                 <!--<form>タグを作成して記入された内容をControllerに送る-->
-               <form th:method="post" th:action="@{/comment/{id}(id=${content.id})}" th:object="${formModel}">
+               <form th:method="post" th:action="@{/comment}" th:object="${formModel}">
                    <div class="form-area">
                       <label>返信内容</label>
                        <!--[field]タグの意味は？-->
                        <textarea class="tweet-box" th:field="*{comment}" size="20" maxlength="200" /></textarea><br/>
+                       <input name="reportId" th:value="${content.id}" th:type="hidden"/>
                        <input type="submit" value="返信"/>
                    </div>
                </form>
@@ -51,6 +52,7 @@
             <div class="comment-icon" th:each="comment : ${comments}" th:if="${content.id} == ${comment.reportId}">
                 <div class="text">
                     返信 : <span th:text="${comment.comment}"/>
+                    <div><span th:text="${#dates.format(comment.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/></div>
                    <form th:action="@{/commentEdit/{id}(id=${comment.id})}">
                        <input type="submit" value="編集">
                    </form>

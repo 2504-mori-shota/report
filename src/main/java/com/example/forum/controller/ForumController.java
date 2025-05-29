@@ -109,11 +109,11 @@ public class ForumController {
     }
 
     //idに紐づいて返信
-    @PostMapping("/comment/{id}")
-    public ModelAndView Comment(@PathVariable Integer id, @ModelAttribute("formModel") CommentForm comment) {
-         String str = comment.getComment();
-         comment.setReportId(id);
+    @PostMapping("/comment")
+    public ModelAndView Comment(@ModelAttribute("formModel") CommentForm comment) {
         // 返信の内容をDBに保存
+        ReportForm updateReport = reportService.editReport(comment.getReportId());
+        reportService.saveReport(updateReport);
         commentService.saveComment(comment);
         return new ModelAndView("redirect:/");
     }

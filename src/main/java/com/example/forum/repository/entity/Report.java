@@ -25,10 +25,10 @@ public class Report {
     @Column
     private String content;
 
-    @Column(insertable = false)
+    @Column(insertable = false, updatable = false)
     private Date createdDate;
 
-    @Column(insertable = false)
+    @Column(insertable = false, updatable = true)
     private Date updatedDate;
 }
 

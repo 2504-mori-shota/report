@@ -18,7 +18,7 @@ public class CommentService {
      * レコード全件取得処理 entity->form
      */
     public List<CommentForm> findAllComment() {
-        List<Comment> results = commentRepository.findAllByOrderByIdDesc();
+        List<Comment> results = commentRepository.findAllByOrderByUpdatedDateDesc();
         List<CommentForm> comments = setCommentForm(results);
         return comments;
     }
@@ -32,6 +32,8 @@ public class CommentService {
             comment.setId(result.getId());
             comment.setComment(result.getComment());
             comment.setReportId(result.getReportId());
+            comment.setCreatedDate(result.getCreatedDate());
+            comment.setUpdatedDate(result.getUpdatedDate());
             comments.add(comment);
         }
         return comments;
@@ -45,6 +47,8 @@ public class CommentService {
         comment.setId(reqComment.getId());
         comment.setComment(reqComment.getComment());
         comment.setReportId(reqComment.getReportId());
+        comment.setCreatedDate(reqComment.getCreatedDate());
+        comment.setUpdatedDate(reqComment.getUpdatedDate());
         return comment;
     }
 
