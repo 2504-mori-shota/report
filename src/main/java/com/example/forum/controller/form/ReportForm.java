@@ -1,6 +1,7 @@
 package com.example.forum.controller.form;
 
-//import jakarta.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -13,7 +14,7 @@ public class ReportForm {
 
     private int id;
 
-    //@NonNull(errormessage = "投稿内容を入力してください")
+    @NotBlank
     private String content;
     private Date createdDate;
     private Date updatedDate;

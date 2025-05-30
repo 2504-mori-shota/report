@@ -38,6 +38,12 @@
                 </a>
            </div>
             <div class="comment-button">
+                <div name="reportId" th:if="${content.id} == ${reportId}">
+                <div th:if="${errorMessageComment}" class="alert alert-error alert-dismissible fade show" role="alert">
+                    <strong th:text="${errorMessageComment}"></strong>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+                </div>
+                </div>
                 <!--<form>タグを作成して記入された内容をControllerに送る-->
                <form th:method="post" th:action="@{/comment}" th:object="${formModel}">
                    <div class="form-area">
